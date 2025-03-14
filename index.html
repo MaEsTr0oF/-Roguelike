@@ -28,6 +28,72 @@ h1 { font-family: "Playfair Display"; font-size: 30px; padding: 10px 0px; margin
 .inventory-box { border: 2px solid #d0d0d0; float: left; }
 .inventory { position: relative; width: 800px; height: 32px; }
 .cl { clear: both; display: block; }
+/* Анимация атаки */
+@keyframes attack-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 0, 0.7); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 255, 0, 0.3); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 0, 0); }
+}
+.attack-animation {
+    animation: attack-pulse 0.3s ease-out;
+    border: 2px solid yellow !important;
+    z-index: 6 !important;
+}
+
+/* Полоски здоровья */
+.tileP::before, .tileE::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 3px;
+    z-index: 15;
+}
+
+/* Полоска здоровья игрока (зеленая) */
+.tileP::before {
+    background-color: #00ff00;
+    width: var(--health-percent, 100%);
+}
+
+/* Полоска здоровья противника (красная) */
+.tileE::before {
+    background-color: #ff0000;
+    width: var(--health-percent, 100%);
+}
+
+/* Анимация получения урона */
+@keyframes damage-flash {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(3); }
+    100% { filter: brightness(1); }
+}
+
+.damage-animation {
+    animation: damage-flash 0.3s ease-out;
+}
+
+/* Анимация предупреждения для игрока, когда здоровье низкое */
+@keyframes low-health-warning {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+    50% { box-shadow: 0 0 0 5px rgba(255, 0, 0, 0.7); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+.low-health {
+    animation: low-health-warning 1s ease-out infinite;
+}
+
+/* Анимация готовящегося к атаке противника */
+@keyframes enemy-prepare-attack {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+    50% { box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.5); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+.preparing-attack {
+    animation: enemy-prepare-attack 1s ease-out infinite;
+}
 </style>
 	</head>
 	<body>
@@ -38,10 +104,8 @@ h1 { font-family: "Playfair Display"; font-size: 30px; padding: 10px 0px; margin
 		<div class="inventory-box"><div class="inventory"></div></div-->
 
 		<script>
-
 			var game=new Game();
 			game.init();
-			
 		</script>
 	</body>
 </html>
